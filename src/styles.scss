@@ -1,0 +1,120 @@
+/* You can add global styles to this file, and also import other style files */
+.wrapper {
+    display: flex;
+    display: -ms-flexbox;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-positive: 1;
+    // flex-grow: 1;
+    overflow-x: hidden
+}
+
+// .wrapper .sidebar {
+//     -ms-flex: 0 0 200px;
+//     flex: 0 0 200px;
+//     -ms-flex-order: -1;
+//     order: -1;
+// }
+
+.sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    display: flex;
+    display: -ms-flexbox;
+    flex-direction: column;
+    overflow: auto;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+
+    .user-view {
+        position: relative;
+        padding: 32px 32px 0;
+        margin-top: 0.3px;
+    }
+
+    .image {
+        width: 64px;
+    }
+
+    .name, .email {
+        display: block;
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .name {
+        margin-top: 16px;
+        font-weight: 500;
+    }
+
+    .email {
+        padding-bottom: 16px;
+        font-weight: 400
+    }
+
+    .nav {
+        a {
+            color: #685757;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 35px;
+            border-bottom: solid 1px #ddd;
+        }
+
+        i {
+            margin-right: 10px;
+        }
+    }
+
+    li > a:hover {
+        color: #007bff;
+    }
+
+    .active {
+        border-left: solid 5px #007bff;
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+/* @media (max-width: 991px) {
+    .sidebar {
+        position: fixed;
+        width: 200px;
+        margin-left: -220px;
+        height: auto;
+        display: flex;
+        display: -ms-flexbox;
+        flex-direction: column;
+    }
+} */
+
+.main-content {
+    margin-right: 0;
+    margin-left: 250px;
+    flex: 1;
+}
+
+/* @media (max-width: 991px) {
+    .main-content {
+        margin-left: 0!important;
+    }
+} */
+
+@media (max-width: 991px) {
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+    }
+}
+
+.page-header {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #e4e5e7;
+    /* border-radius: 4px; */
+}
+
+.page-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}

@@ -1,0 +1,53 @@
+<page-header title="{{model.label}}">
+    <a class="btn btn-outline-secondary float-right" routerLink="/settings">
+        <i class="fa fa-arrow-left"></i> Back
+    </a>
+</page-header>
+
+<!-- <div class="page-content">
+    <div class="row">
+        <button type="button" class="btn pink lighten-1" (click)="openForm()"><i class="fa fa-plus left"></i> Add {{model.label}}</button>
+    </div>
+
+    <div class="row">
+        <p-dataTable [value]="records" [responsive]="true" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15]" [loading]="loading"
+            loadingIcon="fa-spinner" selectionMode="single" [(selection)]="selectedRecord" (onRowSelect)="onRowSelect($event)">
+            <p-column header="#" styleClass="table-index">
+                <ng-template let-i="rowIndex" pTemplate="body">{{i + 1}}</ng-template>
+            </p-column>
+            <p-column field="name" header="Name" sortable="true"></p-column>
+            <p-column field="notes" header="Notes"></p-column>
+        </p-dataTable>
+
+        <form [formGroup]="formGroup" (ngSubmit)="save()">
+            <p-dialog header="{{title}}" [(visible)]="showForm" [responsive]="true" width="500" [modal]="true">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="input-field ui-grid-col-12">
+                            <input type="text" class="validate" formControlName="name">
+                            <label class="float-label">Name <i class="fa fa-asterisk red-text text-lighten-1"></i></label>
+                            <div class="alert alert-danger" *ngIf="formGroup.controls.name.touched && formGroup.controls.name.errors">
+                                Name is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="input-field ui-grid-col-12">
+                            <input type="text" formControlName="notes">
+                            <label class="float-label">Notes</label>
+                        </div>
+                    </div>
+                </div>
+
+                <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                        <button type="button" pButton class="ui-button-secondary" icon="fa-close" label="Cancel" (click)="closeForm()"></button>
+                        <button type="submit" pButton class="ui-button-success" icon="fa-save" label="Save"></button>
+                        <button type="button" pButton class="ui-button-danger left" icon="fa-trash" label="Delete" (click)="remove(formGroup.controls.id.value)" *ngIf="formGroup.controls.id.value"></button>
+                    </div>
+                </p-footer>
+            </p-dialog>
+        </form>
+    </div>
+</div> -->

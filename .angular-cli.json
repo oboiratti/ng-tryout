@@ -20,9 +20,18 @@
       "prefix": "app",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "styles.css"
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/toastr/build/toastr.min.css",
+        "../node_modules/sweetalert2/dist/sweetalert2.min.css",
+        "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.slim.min.js",
+        "../node_modules/popper.js/dist/umd/popper.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/toastr/build/toastr.min.js",
+        "../node_modules/sweetalert2/dist/sweetalert2.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -52,7 +61,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "component": {}
   }
 }
