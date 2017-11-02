@@ -1,82 +1,152 @@
 <page-header title="Roles"></page-header>
 
-<!-- <div class="page-content">
-  <p-blockUI [blocked]="saving">
-    <span class="blocked-content">Saving... <i class="fa fa-spinner fa-spin fa-2x"></i></span>
-  </p-blockUI>
-
-  <div class="row" *ngIf="!showForm">
-    <button type="button" class="btn pink lighten-1" (click)="openForm()" *ngIf="!loading"><i class="fa fa-plus left"></i> Add Role</button>
-    <loading class="right" text="Loading..." *ngIf="loading"></loading>
-  </div>
-
-  <div class="row" *ngIf="!showForm && !loading">
-    <table class="bordered highlight responsive-table">
-      <thead>
-        <tr>
-          <th class="table-index">#</th>
-          <th>Name</th>
-          <th>Notes</th>
-          <th>Permissions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let role of roles; let i = index" class="pointer" (click)="selectRow(role)">
-          <td class="table-index">{{i + 1}}.</td>
-          <td>{{role.name}}</td>
-          <td>{{role.notes}}</td>
-          <td>{{role.permissions.split(",").length}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="row" *ngIf="showForm">
-    <form (ngSubmit)="save()">
-      <div class="card">
-        <a class="btn-flat right" (click)="closeForm()"><i class="fa fa-close"></i></a>
-        <div class="card-content">
-          <div class="card-title title-line">
-            Role Form
-            <button type="button" pButton class="ui-button-secondary right" icon="fa-close" (click)="remove(userForm.controls.id.value)"></button>
-          </div>
-          <div class="row">
-            <div class="input-field col s12 m4">
-              <input type="text" name="name" [(ngModel)]="role.name" required>
-              <label class="active">Name</label>
-            </div>
-            <div class="input-field col s12 m8">
-              <input type="text" name="notes" [(ngModel)]="role.notes">
-              <label class="active">Notes</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <ul class="collection with-header">
-                <li class="collection-header grey lighten-4">
-                  <span style="font-size: 16px"><strong>Permissions</strong></span>
-                  <div class="secondary-content">
-                    <input type="checkbox" id="all" name="checkAll" [checked]="checkAll" (change)="selectAll($event)" />
-                    <label for="all"></label>
-                  </div>
-                </li>
-                <li class="collection-item" *ngFor="let perm of permissions">
-                  {{perm.name}}
-                  <div class="secondary-content">
-                    <input type="checkbox" id="{{perm.id}}" name="checked" [checked]="perm.checked" (change)="selectOne(perm, $event)" />
-                    <label for="{{perm.id}}"></label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+<div class="page-content">
+    <div class="row mb-4" *ngIf="!showForm">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" (click)="openForm()" *ngIf="!loading">
+                <i class="fa fa-plus left"></i> Add Role</button>
+            <loading class="float-right" text="Loading..." *ngIf="loading"></loading>
         </div>
-        <div class="card-action">
-          <button type="submit" pButton class="ui-button-success" icon="fa-save" label="Save"></button>
-          <button type="button" pButton class="ui-button-secondary" icon="fa-close" label="Cancel" (click)="closeForm()"></button>
-          <button type="button" pButton class="ui-button-danger right" icon="fa-trash" label="Delete" (click)="remove(role.id)" *ngIf="role.id"></button>
+    </div>
+
+    <div class="row" *ngIf="!showForm && !loading">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-hover table-responsive-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="table-index">#</th>
+                        <th>Name</th>
+                        <th>Notes</th>
+                        <th>Permissions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let role of roles; let i = index" class="pointer" (click)="selectRow(role)">
+                        <td class="table-index">{{i + 1}}.</td>
+                        <td>{{role.name}}</td>
+                        <td>{{role.notes}}</td>
+                        <td>{{role.privileges.split(",").length}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-      </div>
-    </form>
-  </div>
-</div> -->
+    </div>
+
+    <div class="" *ngIf="showForm">
+        <form (ngSubmit)="save()">
+            <!-- <div class="card">
+                <div class="card-body">
+                    <a class="btn btn-flat float-right" title="Close" (click)="closeForm()">
+                        <i class="fa fa-close"></i>
+                    </a>
+                    <h6 class="card-title">
+                        Role Form
+                    </h6>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-4">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="role.name" required>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-8">
+                            <label>Notes</label>
+                            <input type="text" class="form-control" name="notes" [(ngModel)]="role.notes">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-group">
+                                <li class="list-group-item bg-light">
+                                    <span style="font-size: 18px">
+                                        <strong>Privileges</strong>
+                                    </span>
+                                    <div class="float-right">
+                                        <div class="form-check abc-checkbox abc-checkbox-primary">
+                                            <input type="checkbox" id="all" class="form-check-input" name="checkAll" [checked]="checkAll" (change)="selectAll($event)"/>
+                                            <label for="all" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item" *ngFor="let perm of permissions">
+                                    {{perm}}
+                                    <div class="form-check abc-checkbox abc-checkbox-primary float-right">
+                                        <input type="checkbox" id="{{perm.id}}" class="form-check-input" name="checked" [checked]="perm.checked" (change)="selectOne(perm, $event)" />
+                                        <label for="{{perm.id}}" class="form-check-label"></label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" (click)="closeForm()"><i class="fa fa-save"></i> Cancel</button>
+                    <button type="button" class="btn btn-danger float-right" (click)="remove(role.id)" *ngIf="role.id"><i class="fa fa-save"></i> Delete</button>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-sm-12 col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <a class="btn btn-flat float-right" title="Close" (click)="closeForm()">
+                                <i class="fa fa-close"></i>
+                            </a> -->
+                            <div class="card-title">
+                                <h5>{{title}}</h5>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" name="name" [(ngModel)]="role.name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <textarea rows="3" class="form-control" name="notes" [(ngModel)]="role.notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-save"></i> Save</button>
+                            <button type="button" class="btn btn-secondary" (click)="closeForm()">
+                                <i class="fa fa-close"></i> Cancel</button>
+                            <button type="button" class="btn btn-danger float-right" (click)="remove(role.id)" *ngIf="role.id">
+                                <i class="fa fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-8">
+                    <div class="card fixed-height">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-light">
+                                <span style="font-size: 18px">
+                                    <strong>Privileges</strong>
+                                </span>
+                                <div class="float-right">
+                                    <!-- <div class="form-check abc-checkbox abc-checkbox-primary"> -->
+                                    <label for="all" class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="all" class="custom-control-input" name="checkAll" [checked]="checkAll" (change)="selectAll($event)"
+                                        />
+                                        <span class="custom-control-indicator"></span>
+                                        <!-- <span class="custom-control-description"></span> -->
+                                    </label>
+                                    <!-- </div> -->
+                                </div>
+                            </li>
+                            <li class="list-group-item" *ngFor="let perm of privileges">
+                                {{perm.name}}
+                                <!-- <div class="form-check abc-checkbox abc-checkbox-primary float-right"> -->
+                                <label for="{{perm.name}}" class="custom-control custom-checkbox float-right">
+                                    <input type="checkbox" id="{{perm.name}}" class="custom-control-input" name="checked" [checked]="perm.checked" (change)="selectOne(perm, $event)"
+                                    />
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                                <!-- </div> -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

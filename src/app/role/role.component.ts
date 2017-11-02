@@ -16,15 +16,17 @@ export class RoleComponent implements OnInit {
 
   roles: Role[];
   showForm: boolean;
-  permissions: any[] = [];
+  privileges: any[] = [];
   role = <Role>{};
   checkAll: boolean;
+  title = "Add New Role";
 
   constructor(private roleService: RoleService) { }
 
   ngOnInit() {
     this.fetchRoles();
     this.fetchPermissions();
+    this.title = "Add New Role";
   }
 
   openForm() {
@@ -32,41 +34,41 @@ export class RoleComponent implements OnInit {
   }
 
   closeForm() {
+    this.title = "Add New Role";
     this.showForm = false;
     this.role = <Role>{};
-    this.permissions.forEach((perm) => {
+    this.privileges.forEach((perm) => {
       perm.checked = false;
     });
   }
 
   selectRow(role: Role) {
+    this.title = "Edit Role";
     this.role = role;
-    let perms = role.permissions.split(", ");
-    this.permissions.forEach((perm) => {
+    let perms = role.privileges.split(",");
+    this.privileges.forEach((perm) => {
       perm.checked = false;
       perm.checked = perms.includes(perm.name)
     });
 
-    if (perms.length == this.permissions.length) {
+    if (perms.length == this.privileges.length) {
       this.checkAll = true;
     } else {
       this.checkAll = false;
     }
     this.showForm = true;
-    console.log(this.permissions);
-    
+    console.log(perms.length, this.privileges.length);
   }
 
   selectOne(perm, event) {
     let cnt = 0;
-    this.permissions.find(obj => obj.id === perm.id).checked = event.target.checked;
-    console.log(this.permissions);
-    this.permissions.map((perm) => {
+    this.privileges.find(obj => obj.name === perm.name).checked = event.target.checked;
+    
+    this.privileges.map((perm) => {
       if (perm.checked) cnt++;
     });
-console.log(cnt);
 
-    if (cnt == this.permissions.length) {
+    if (cnt == this.privileges.length) {
       this.checkAll = true;
     } else {
       this.checkAll = false;
@@ -74,7 +76,7 @@ console.log(cnt);
   }
 
   selectAll(event) {
-    this.permissions.map((perm) => {
+    this.privileges.map((perm) => {
       perm.checked = event.target.checked
     });
     this.checkAll = true;
@@ -82,21 +84,21 @@ console.log(cnt);
 
   save() {
     let permString = "";
-    this.permissions.map((perm) => {
+    this.privileges.map((perm) => {
       if (perm.checked) {
         permString += perm.name;
-        permString += ", ";
+        permString += ",";
       }
     });
-    permString = permString.substring(0, permString.length - 2);
-    this.role.permissions = permString;
+    permString = permString.substring(0, permString.length - 1);
+    this.role.privileges = permString;
 
     if (!this.role.name) {
       MessageDialog.error("Please enter the name of the role to be created");
       return;
     }
 
-    if (this.role.permissions === "") {
+    if (this.role.privileges === "") {
       MessageDialog.error("Role must have at least one permission");
       return;
     }
@@ -149,7 +151,9 @@ console.log(cnt);
   private fetchPermissions() {
     this.roleService.permissions().subscribe((res) => {
       if (res.success) {
-        this.permissions = res.data;
+        this.privileges = res.data.map((perm) => {
+          return {"name": perm};
+        });
       }
     }, err => {
       console.log("Error -> " + err.message);
