@@ -2,116 +2,147 @@
 
 
 
-<!-- <div class="page-content">
-
-    <div class="modal" id="roleForm" tabindex="-1" role="dialog">
+<div class="page-content">
+    <div class="modal" id="userForm" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Role Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    asfad
-                </div>
+                <form [formGroup]="userForm" (ngSubmit)="save()">
+                    <div class="modal-header">
+                        <h5 class="modal-title">User Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeBtn>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="float-label">Name
+                                    <i class="fa fa-asterisk text-danger"></i>
+                                </label>
+                                <input type="text" class="form-control" formControlName="name" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="float-label">Email</label>
+                                <input type="email" class="form-control" formControlName="email">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="float-label">Phone Number</label>
+                                <input type="text" class="form-control" formControlName="phoneNumber">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="float-label">Username
+                                    <i class="fa fa-asterisk text-danger"></i>
+                                </label>
+                                <input type="text" class="form-control" formControlName="userName">
+                                <div class="alert alert-danger" *ngIf="userForm.controls.userName.touched && userForm.controls.userName.errors">
+                                    Username must be at least 6 characters long
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="float-label">Password
+                                    <i class="fa fa-asterisk text-danger"></i>
+                                </label>
+                                <input type="password" class="form-control" formControlName="password">
+                                <div class="alert alert-danger" *ngIf="userForm.controls.password.touched && userForm.controls.password.errors">
+                                    Password must be at least 6 characters long
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label class="float-label">Password Confirmation
+                                    <i class="fa fa-asterisk text-danger"></i>
+                                </label>
+                                <input type="password" class="form-control" formControlName="confirmPassword">
+                                <div class="alert alert-danger" *ngIf="userForm.controls.confirmPassword.touched && userForm.hasError('passwordMismatch')">
+                                    Passwords mismatch
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label>Role
+                                    <i class="fa fa-asterisk text-danger"></i>
+                                </label>
+                                <select class="form-control" formControlName="roleId">
+                                    <option value="">Select Role</option>
+                                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" (click)="remove(userForm.controls.id.value)" *ngIf="userForm.controls.id.value">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                        <button type="button" class="btn btn-secondary" (click)="closeForm()">
+                            <i class="fa fa-close"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    
-    <div class="row">
-        <button type="button" class="btn pink lighten-1" (click)="openForm()"><i class="fa fa-plus left"></i> Add User</button>
+
+    <div class="row mb-4">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" (click)="openForm()" *ngIf="!loading" #openBtn>
+                <i class="fa fa-plus left"></i> Add User</button>
+            <loading class="float-right" text="Loading..." *ngIf="loading"></loading>
+        </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <label>Select Filter</label>
         <p-dropdown [options]="filter" [style]="{'width': '200px'}" placeholder="Select a key" [(ngModel)]="selectedFilter"></p-dropdown>
         <p-dropdown [options]="operation" [style]="{'width': '50px'}"></p-dropdown>
         <p-dropdown [options]="filter" [style]="{'width': '200px'}" *ngIf="selectedFilter?.type == 'select'"></p-dropdown>
         <input type="text" style="width: 200px" pInputText *ngIf="selectedFilter?.type == 'text'">
+    </div> -->
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-hover table-responsive-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="table-index">#</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users; let i = index" class="pointer" (click)="selectRow(user)">
+                        <td class="table-index">{{i + 1}}.</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.phoneNumber}}</td>
+                        <td>{{user.role.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <div class="row">
-        <p-dataTable [value]="users" [lazy]="true" (onLazyLoad)="fetchUsers($event)" [totalRecords]="totalRecords" [responsive]="true" 
-            [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15]" [loading]="loading" [sortOrder]="-1"
-            loadingIcon="fa-spinner" selectionMode="single" [(selection)]="selectedUser" (onRowSelect)="onRowSelect($event)">
-            <p-column header="#" styleClass="table-index">
-                <ng-template let-i="rowIndex" pTemplate="body">{{i + 1}}</ng-template>
-            </p-column>
-            <p-column field="name" header="Name" sortable="true"></p-column>
-            <p-column field="username" header="Username" sortable="true"></p-column>
-            <p-column field="email" header="Email" sortable="true"></p-column>
-            <p-column field="role.name" header="Role" sortable="true">
-                <ng-template let-user="rowData" pTemplate="body">
-                    {{user.role?.name || 'N/A'}}
-                </ng-template>
-            </p-column>
-        </p-dataTable>
-
-        <form [formGroup]="userForm" (ngSubmit)="save()">
-            <p-dialog header="User Form" [(visible)]="showForm" [responsive]="true" width="500" [modal]="true">
-                <div class="ui-grid ui-grid-responsive ui-fluid">
-                    <div class="ui-grid-row">
-                        <div class="input-field ui-grid-col-12">
-                            <input type="text" class="validate" formControlName="name">
-                            <label class="float-label">Name <i class="fa fa-asterisk red-text text-lighten-1"></i></label>
-                        </div>
-                    </div>
-
-                    <div class="ui-grid-row">
-                        <div class="input-field ui-grid-col-12">
-                            <input type="email" class="validate" formControlName="email">
-                            <label class="float-label">Email</label>
-                        </div>
-                    </div>
-
-                    <div class="ui-grid-row">
-                        <div class="input-field ui-grid-col-12">
-                            <input type="text" class="validate" formControlName="username">
-                            <label class="float-label">Username <i class="fa fa-asterisk red-text text-lighten-1"></i></label>
-                            <div class="alert alert-danger" *ngIf="userForm.controls.username.touched && userForm.controls.username.errors">
-                                Username must be at least 6 characters long
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ui-grid-row">
-                        <div class="input-field ui-grid-col-12">
-                            <input type="password" class="validate" formControlName="password">
-                            <label class="float-label">Password <i class="fa fa-asterisk red-text text-lighten-1"></i></label>
-                            <div class="alert alert-danger" *ngIf="userForm.controls.password.touched && userForm.controls.password.errors">
-                                Password must be at least 6 characters long
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ui-grid-row">
-                        <div class="input-field ui-grid-col-12">
-                            <input type="password" class="validate" formControlName="passwordConfirmation">
-                            <label class="float-label">Password Confirmation <i class="fa fa-asterisk red-text text-lighten-1"></i></label>
-                            <div class="alert alert-danger" *ngIf="userForm.controls.passwordConfirmation.touched && userForm.hasError('passwordMismatch')">
-                                Passwords mismatch
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ui-grid-row">
-                        <div class="ui-grid-col-12">
-                            <label>Role <i class="fa fa-asterisk red-text text-lighten-1"></i></label>
-                            <p-dropdown [options]="roles" [style]="{'width': '100%'}" filter="filter" appendTo="body" formControlName="role" placeholder="Select Role"></p-dropdown>
-                        </div>
-                    </div>
-                </div>
-
-                <p-footer>
-                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                        <button type="button" pButton class="ui-button-secondary" icon="fa-close" label="Cancel" (click)="closeForm()"></button>
-                        <button type="submit" pButton class="ui-button-success" icon="fa-save" label="Save"></button>
-                        <button type="button" pButton class="ui-button-danger left" icon="fa-trash" label="Delete" (click)="remove(userForm.controls.id.value)" *ngIf="userForm.controls.id.value"></button>
-                    </div>
-                </p-footer>
-            </p-dialog>
-        </form>
-    </div>
-</div> -->
+</div>

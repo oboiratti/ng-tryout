@@ -1,48 +1,50 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-    <a href="#" class="navbar-brand">App Name</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn()">
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Welcome Admin
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown1">
-                    <a href="#" class="dropdown-item">Profile</a>
-                    <a href="#" class="dropdown-item">Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item pointer" (click)="logout()">Logout</a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<div class="wrapper">
-    <div class="sidebar flex-column" *ngIf="isLoggedIn()">
-        <div class="user-view bg-primary">
-            <div>
-                <img class="img-fluid rounded-circle image" src="../assets/images/user_default.png">
-            </div>
-            <a href="#!name" class="text-white">
-                <span class="name">{{username}}</span>
-            </a>
-            <a href="#!email" class="text-white">
-                <span class="email">{{email}}</span>
-            </a>
+<block-ui>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+        <a href="#" class="navbar-brand">App Name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn()">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Welcome Admin
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown1">
+                        <a href="#" class="dropdown-item">Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item pointer" (click)="logout()">Logout</a>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <ul class="nav flex-column flex-nowrap">
-            <li class="nav-item" *ngFor="let menu of menus" routerLinkActive="active">
-                <a class="nav-link" routerLink="{{menu.route}}">
-                    <i [ngClass]="menu.icon"></i> {{menu.label}}
+    </nav>
+
+    <div class="wrapper">
+        <div class="sidebar flex-column" *ngIf="isLoggedIn()">
+            <div class="user-view bg-primary">
+                <div>
+                    <img class="img-fluid rounded-circle image" src="../assets/images/user_default.png">
+                </div>
+                <a href="#!name" class="text-white">
+                    <span class="name">{{username}}</span>
                 </a>
-            </li>
-        </ul>
+                <a href="#!email" class="text-white">
+                    <span class="email">{{email}}</span>
+                </a>
+            </div>
+            <ul class="nav flex-column flex-nowrap">
+                <li class="nav-item" *ngFor="let menu of menus" routerLinkActive="active">
+                    <a class="nav-link" routerLink="{{menu.route}}">
+                        <i [ngClass]="menu.icon"></i> {{menu.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <main class="main-content">
+            <router-outlet></router-outlet>
+        </main>
     </div>
-    <main class="main-content">
-        <router-outlet></router-outlet>
-    </main>
-</div>
+</block-ui>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RoleService } from './role.service';
 import { Role } from '../auth/auth.model';
 import { MessageDialog } from '../shared/message_helper';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-role',
@@ -20,6 +21,7 @@ export class RoleComponent implements OnInit {
   role = <Role>{};
   checkAll: boolean;
   title = "Add New Role";
+  @BlockUI() blockForm: NgBlockUI;
 
   constructor(private roleService: RoleService) { }
 
@@ -104,13 +106,16 @@ export class RoleComponent implements OnInit {
     }
     
     this.saving = true;
+    this.blockForm.start("Saving...")
     this.roleService.save(this.role).subscribe((res) => {
       this.saving = false;
+      this.blockForm.stop();
       if (res.success) {
         this.showForm = false;
         this.fetchRoles();
       }
     }, err => {
+      this.blockForm.stop();
       console.log("Error -> " + err.message);
     });
   }
@@ -119,18 +124,22 @@ export class RoleComponent implements OnInit {
     MessageDialog.confirm("Delete Role", "Are you sure you want to delete this role").then((yes) => {
       if (yes) {
         this.deleting = true;
+        this.blockForm.start("Deleting")
         this.roleService.destroy(id).subscribe((res) => {
           this.deleting = false;
+          this.blockForm.stop();
           if (res.success) {
             this.showForm = false;
             this.fetchRoles();
             this.role = <Role>{};
           }
         }, err => {
+          this.blockForm.stop();
           console.log("Error -> " + err.message);
         });
       }
     }).catch((err) => {
+      this.blockForm.stop();
       console.log("Error -> " + err.message);
     });
   }

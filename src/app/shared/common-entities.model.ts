@@ -10,3 +10,12 @@ export interface SearchCriteria {
     value: object
     operation: string
 }
+
+export interface QueryPager {
+    page: number;
+    size: number;
+}
+
+export interface ModelQuery {
+    pager: QueryPager;
+}

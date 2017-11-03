@@ -10,19 +10,19 @@ export class UserService {
     @Inject('baseApi') private baseApi: string) { }
 
   fetch() {
-    return this.httpClient.get<ResponseObject<User[]>>(`${this.baseApi}/auth/users`);
+    return this.httpClient.get<ResponseObject<User[]>>(`${this.baseApi}/account/getusers`);
   }
 
   query(params: UserQuery) {
-    return this.httpClient.post<ResponseObject<User[]>>(`${this.baseApi}/auth/users/query`, params);
+    return this.httpClient.post<ResponseObject<User[]>>(`${this.baseApi}/account/queryusers`, params);
   }
 
   save(params: User) {
-    if (params.id)  return this.httpClient.put<ResponseObject<User>>(`${this.baseApi}/auth/user`, params);
-    return this.httpClient.post<ResponseObject<User>>(`${this.baseApi}/auth/register`, params);
+    if (params.id)  return this.httpClient.put<ResponseObject<User>>(`${this.baseApi}/account/updateuser`, params);
+    return this.httpClient.post<ResponseObject<User>>(`${this.baseApi}/account/createuser`, params);
   }
 
   destroy(id: number) {
-    return this.httpClient.delete<ResponseObject<User>>(`${this.baseApi}/auth/user/${id}`);
+    return this.httpClient.delete<ResponseObject<User>>(`${this.baseApi}/account/deleteuser?id=${id}`);
   }
 }

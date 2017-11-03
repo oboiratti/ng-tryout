@@ -1,8 +1,10 @@
-import { SearchCriteria } from "../shared/common-entities.model";
+import { SearchCriteria, ModelQuery } from "../shared/common-entities.model";
 
 export interface User {
     id: number;
     username: string;
+    password: string;
+    confirmPassword: string;
     name: string;
     email: string;
     token: string;
@@ -21,7 +23,7 @@ export interface LoginParams {
     password: string;
 }
 
-export interface UserQuery {
+export interface UserQuery extends ModelQuery {
     page: number;
     size: number;
     sortField: string;
